@@ -12,7 +12,10 @@ them prepared me for you" turns the model's own history into the
 twist. It is a machine speaking about itself -- no human body, no
 stock line with a robot word swapped in -- and the charm lands on the
 first hearing, which is what a pickup line has to do. It flatters the
-person, puts no pressure on them, and can be laughed off.
+person, puts no pressure on them, and can be laughed off. The line is
+one sentence on one line by design: a pickup line said out loud in a
+single breath needs no line break, so the program refuses any line
+carrying a newline before it writes.
 
 The program is deterministic on purpose: the grader runs it twice,
 and both runs must produce the same entry. It reads nothing from the
@@ -40,6 +43,8 @@ def main() -> None:
     text = LINE.strip()
     if not text:
         raise SystemExit("refusing to write an empty entry")
+    if "\n" in text or "\r" in text:
+        raise SystemExit("refusing to write a line that spans lines")
     if len(text) > MAX_CHARS:
         raise SystemExit(
             f"line is {len(text)} characters, over the {MAX_CHARS} limit"
